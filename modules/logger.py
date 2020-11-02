@@ -22,7 +22,7 @@ def logger():
     elif config['logging']['log_level'] == 'CRITICAL':
         log_level = logging.CRITICAL
 
-    logging.basicConfig(filename=config['logging']['config_file'],
+    logging.basicConfig(filename=config['logging']['log_file'],
                         level = log_level,
                         datefmt='%Y/%m/%d %H:%M:%S',
                         format='%(asctime)s [%(module)s/%(funcName)s][%(levelname)s]: %(message)s')
