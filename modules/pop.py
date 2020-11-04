@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 
 # モジュールインポート
@@ -25,15 +26,15 @@ logger = logger.logger()
 def check_return(response):
     try:
         if re.match('\+OK.*', response):
-            print(response.strip())
+            print response.strip()
             return True
 
         elif re.match('\-ERR.*', response):
-            print(response.strip())
+            print response.strip()
             return False
 
     except EOFError:
-        print('サーバーから応答がありません。正常性を確認してください。')
+        print 'サーバーから応答がありません。正常性を確認してください。'
         return False
 
 
@@ -62,23 +63,23 @@ def pop(pop_info_list):
             tn = telnetlib.Telnet(server, port)
         
         except:
-            print(color.pycolor.RED + 'サーバーに接続できませんでした。サーバーの正常性を確認するか正しいIP/ポートを指定してください。' + color.pycolor.END)
+            print color.pycolor.RED + 'サーバーに接続できませんでした。サーバーの正常性を確認するか正しいIP/ポートを指定してください。' + color.pycolor.END
             sys.exit()
         
         result = tn.expect([b'(\+OK|\-ERR).*\r\n'])[2].decode()
         if check_return(result):
-            print('-> user ' + username)
+            print '-> user ' + username
             tn.write(b'user ' + username.encode() + b'\r\n')
         
             result = tn.expect([b'(\+OK|\-ERR).*\r\n'])[2].decode()
         
             if check_return(result):
-                print('-> pass ' + password)
+                print '-> pass ' + password
                 tn.write(b'pass ' + password.encode() + b'\r\n')
                 result = tn.expect([b'(\+OK|\-ERR).*\r\n'])[2].decode()
                 
                 if check_return(result):
-                    print('-> list')
+                    print '-> list'
                     tn.write(b'list\r\n')
         
                     result = tn.expect([b'(\+OK|\-ERR).*\r\n'])[2].decode()
@@ -88,7 +89,7 @@ def pop(pop_info_list):
                         message_count = int(re.search('\+OK.*', result).group().split()[1])
         
                     result = tn.read_until(b'.\r\n').decode()
-                    print(result)
+                    print result
         
                     if message_count == 0:
                         pass
@@ -96,48 +97,48 @@ def pop(pop_info_list):
                     else:
                         # 全メールを繰り返し取得
                         for i in range(1, message_count+1):
-                            print('-> retr ' + str(i))
+                            print '-> retr ' + str(i)
                             tn.write(b'retr ' + str(i).encode() + b'\r\n')
                             try:
                                 result = tn.read_until(b'\r\n.\r\n').decode()
-                                print(color.pycolor.YELLOW + '========== Message ID: ' + str(i) + ' ==========' + color.pycolor.END) 
-                                print(result)
-                                print()
-                                print()
+                                print color.pycolor.YELLOW + '========== Message ID: ' + str(i) + ' ==========' + color.pycolor.END
+                                print result
+                                print ''
+                                print ''
                                 pop_success += 1
         
                             except:
-                                print('POP Error. skip...')
+                                print 'POP Error. skip...'
                                 pop_failed += 1
                                 continue
         
                         # 全メール削除処理
-                        all_delete = input(color.pycolor.RED + '全てのメールを削除しますか？（y/n）: ' + color.pycolor.END)
+                        all_delete = raw_input(color.pycolor.RED + '全てのメールを削除しますか？（y/n）: ' + color.pycolor.END)
                         if all_delete == 'y':
-                            print('deleting.....')
+                            print 'deleting.....'
                             for i in range(1, message_count+1):
                                 tn.write(b'dele ' + str(i).encode() + b'\r\n')
                                 result = tn.expect([b'(\+OK|\-ERR).*\r\n'])[2].decode()
                                 if check_return(result):
                                     pass
                                 else:
-                                    print(result)
+                                    print result
         
                             tn.write(b'list\r\n')
                             result = tn.read_until(b'.\r\n').decode()
         
                             if int(re.search('\+OK.*', result).group().split()[1]) == 0:
-                                print(color.pycolor.GREEN + '全てのメールが削除されました。' + color.pycolor.END)
+                                print color.pycolor.GREEN + '全てのメールが削除されました。' + color.pycolor.END
                             else:
-                                print(color.pycolor.GREEN + 'いくつかメールが残っています。' + color.pycolor.END)
+                                print color.pycolor.GREEN + 'いくつかメールが残っています。' + color.pycolor.END
         
                         elif all_delete == 'n':
-                            print(color.pycolor.GREEN + '削除せずに終了します。' + color.pycolor.END)
+                            print color.pycolor.GREEN + '削除せずに終了します。' + color.pycolor.END
         
                         else:
-                            print(color.pycolor.GREEN + '"y" または "n" を指定してください。 削除せずに終了します。' + color.pycolor.END)
+                            print color.pycolor.GREEN + '"y" または "n" を指定してください。 削除せずに終了します。' + color.pycolor.END
                     
-                    print('-> quit')
+                    print '-> quit'
                     tn.write(b'quit\r\n')
                     result = tn.expect([b'(\+OK|\-ERR).*\r\n'])[2].decode()
         
@@ -149,32 +150,32 @@ def pop(pop_info_list):
                         tn.close()
                         success += 1
                     else:
-                        print(result)
+                        print result
                         failed += 1
                 else:
-                    print(result)
+                    print result
                     failed += 1
             else:
-                print(result)
+                print result
                 failed += 1
         else:
-            print(result)
+            print result
             failed += 1
     
     logger.info('End mail pop process indivisually.')
     
-    print()
-    print()
-    print('========== Mail POP Summary ==========')
-    print()
-    print(' Receive Status')
-    print('     total message: ' + str(message_count))
-    print('     pop success: ' + str(pop_success))
-    print('     pop failed : ' + str(pop_failed))
-    print()
-    print(' Execute Status')
-    print(color.pycolor.CYAN + '     Success: ' + color.pycolor.END + str(success))
-    print(color.pycolor.RED + '     Failed: ' + color.pycolor.END + str(failed))
-    print()
-    print(' Total Processed Count: ' + str(success + failed))
-    print('======================================')
+    print ''
+    print ''
+    print '========== Mail POP Summary =========='
+    print ''
+    print ' Receive Status'
+    print '     total message: ' + str(message_count)
+    print '     pop success: ' + str(pop_success)
+    print '     pop failed : ' + str(pop_failed)
+    print ''
+    print ' Execute Status'
+    print color.pycolor.CYAN + '     Success: ' + color.pycolor.END + str(success)
+    print color.pycolor.RED + '     Failed: ' + color.pycolor.END + str(failed)
+    print ''
+    print ' Total Processed Count: ' + str(success + failed)
+    print '======================================'

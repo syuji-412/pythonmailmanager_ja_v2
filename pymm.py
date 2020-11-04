@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 ### pymm実行メインスクリプト ###
 
@@ -13,7 +14,7 @@ from modules import menu
 logger = logger.logger()
 
 # メインプロセス
-print()
-print(color.pycolor.YELLOW + ' Welcome to Python Mail Manager.' + color.pycolor.END)
-print()
+print ''
+print color.pycolor.YELLOW + ' Welcome to Python Mail Manager.' + color.pycolor.END
+print ''
 menu.main_menu()
