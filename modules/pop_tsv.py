@@ -55,7 +55,7 @@ def pop_mail(tsv_file):
     global total_message_count
 
     logger.info('Start mail pop process from TSV file.')
-    with open(tsv_file, encoding='utf-8') as f:
+    with open(tsv_file) as f:
         for cols in csv.reader(f, delimiter='\t'):
         
             # ローカル変数定義

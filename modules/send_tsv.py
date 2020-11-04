@@ -70,7 +70,7 @@ def send_mail(tsv_file):
     global novirus_count            
 
     logger.info('Start mail sending process from TSV file.')
-    with open(tsv_file, encoding='utf-8') as f:
+    with open(tsv_file) as f:
         for cols in csv.reader(f, delimiter='\t'):
             # ローカル変数定義
             testname = cols[0]
