@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python2.7
 # -*- coding: utf-8 -*-
 
 ### 認証メソッド定義スクリプト ###

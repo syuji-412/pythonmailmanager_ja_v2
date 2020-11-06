@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python2.7
 # -*- coding: utf-8 -*-
 
 # モジュールインポート
@@ -78,7 +78,7 @@ def send_mail(sending_info_list, subject, body):
             print color.pycolor.YELLOW + '=*=*=*=*=*=*=*=*=*=*= ' + username + '_' + server_address + ' =*=*=*=*=*=*=*=*=*=*=' + color.pycolor.END
 
             try:
-                tn = telnetlib.Telnet(server_address, port)
+                tn = telnetlib.Telnet(server_address, int(port))
             
             except:
                 logger.error('Failed connect to server. Please check the server health or specify correct IP/Port.')

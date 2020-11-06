@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python2.7
 # -*- coding: utf-8 -*-
 
 
@@ -60,7 +60,7 @@ def pop(pop_info_list):
         server = pop_info[2]
 
         try:
-            tn = telnetlib.Telnet(server, port)
+            tn = telnetlib.Telnet(server, int(port))
         
         except:
             print color.pycolor.RED + 'サーバーに接続できませんでした。サーバーの正常性を確認するか正しいIP/ポートを指定してください。' + color.pycolor.END

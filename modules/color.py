@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/bin/python2.7
 # -*- coding: utf-8 -*-
 
 # 文字色クラス定義
