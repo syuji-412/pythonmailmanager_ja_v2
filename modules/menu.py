@@ -271,7 +271,7 @@ def pop_indivisually():
             password = config['pop_default_account'][domain].split(':')[1]
         else:
             password = raw_input(' パスワード: ')
-        pop_list.append([str(username),str(password),str(config['pop_domain_ips'][username.split('@')[1]])])
+        pop_list.append([username,password,config['pop_domain_ips'][username.split('@')[1]]])
 
     print ''
     logger.debug('pop_list is ' + str(pop_list))
